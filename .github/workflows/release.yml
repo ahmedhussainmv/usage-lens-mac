@@ -12,10 +12,19 @@ jobs:
           - { os: macos-15, arch: arm64 }
           - { os: macos-15-intel, arch: x86_64 }
     runs-on: ${{ matrix.os }}
+    env:
+      MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+      MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+      NOTARY_APPLE_ID: ${{ secrets.NOTARY_APPLE_ID }}
+      NOTARY_PASSWORD: ${{ secrets.NOTARY_PASSWORD }}
+      NOTARY_TEAM_ID: ${{ secrets.NOTARY_TEAM_ID }}
     steps:
       - uses: actions/checkout@v4
       - run: cargo test --locked
       - run: ./build-app.sh
+      - name: Sign and notarize (only when the signing secrets are configured)
+        if: env.MACOS_CERT_P12 != ''
+        run: ./scripts/sign-and-notarize.sh "dist/Usage Lens.app"
       - name: Package
         run: ditto -c -k --keepParent "dist/Usage Lens.app" "Usage-Lens-macOS-${{ matrix.arch }}.zip"
       - uses: actions/upload-artifact@v4
