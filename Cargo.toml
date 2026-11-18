@@ -1,0 +1,28 @@
+[package]
+name = "usage-lens-mac"
+version = "0.2.0"
+edition = "2021"
+rust-version = "1.85"
+
+[dependencies]
+anyhow = "1.0"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+memchr = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+walkdir = "2"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "objc2-core-foundation", "NSAccessibilityProtocols", "NSApplication", "NSResponder", "NSWindow", "NSView", "NSBox", "NSBezierPath", "NSControl", "NSTextField", "NSButton", "NSPopUpButton", "NSMenu", "NSMenuItem", "NSFont", "NSFontDescriptor", "NSColor", "NSCell", "NSButtonCell", "NSActionCell", "NSText", "NSScrollView", "NSTextView", "NSColorSpace", "NSImage", "NSGraphics", "NSRunningApplication", "NSVisualEffectView", "NSAlert", "NSSavePanel", "NSPanel", "NSSegmentedControl", "NSSegmentedCell", "NSGradient", "NSAppearance"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSObject", "NSString", "NSGeometry", "NSNotification", "NSTimer", "NSRunLoop", "NSDate", "NSArray", "NSURL"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1

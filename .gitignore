@@ -1,0 +1,10 @@
+/target/
+/dist/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.zip
+.DS_Store
